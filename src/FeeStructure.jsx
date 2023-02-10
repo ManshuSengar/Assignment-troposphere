@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const FeeStructure = ({ data }) => {
   const [amount, setAmount] = useState(null);
@@ -25,14 +25,14 @@ const FeeStructure = ({ data }) => {
       ...feeList,
       courseList: null,
       levelsList: null,
-      nationalityList: nationalityList1
+      nationalityList: nationalityList1,
     });
     setFeeData({
       ...feeData,
       course: null,
       level: null,
       selectedFee: e.target.value,
-      nationality:null
+      nationality: null,
     });
   };
 
@@ -55,11 +55,12 @@ const FeeStructure = ({ data }) => {
   const handleCourseSelection = (e) => {
     setAmount(null);
     const { selectedFee, nationality } = feeData;
-    const levelsList1 =!data[selectedFee][nationality][e.target.value]?null:
-      Object.keys(data[selectedFee][nationality][e.target.value])[0] ===
-        "ALL_LEVEL​" && selectedFee === "Exam Fee"
-        ? levels
-        : Object.keys(data[selectedFee][nationality][e.target.value]);
+    const levelsList1 = !data[selectedFee][nationality][e.target.value]
+      ? null
+      : Object.keys(data[selectedFee][nationality][e.target.value])[0] ===
+          "ALL_LEVEL​" && selectedFee === "Exam Fee"
+      ? levels
+      : Object.keys(data[selectedFee][nationality][e.target.value]);
     setFeeList({ ...feeList, levelsList: levelsList1 });
     setFeeData({ ...feeData, level: null, course: e.target.value });
   };
@@ -76,25 +77,33 @@ const FeeStructure = ({ data }) => {
     }
   };
   return (
-    <div>
-      <label> Select fee type </label>{" "}
-      <select name="fees" onChange={handleFeesSelection}>
-        <option value={null}>--Select Fee Type--</option>
-        {feesList &&
-          feesList.map((fee) => {
-            return <option value={fee}>{fee}</option>;
-          })}
-      </select>
+    <div className="feestructure">
+      <div>
+        <label> Select fee type </label>{" "}
+        <select name="fees" onChange={handleFeesSelection}>
+          <option value={null}>--Select Fee Type--</option>
+          {feesList &&
+            feesList.map((fee) => {
+              return <option value={fee}>{fee}</option>;
+            })}
+        </select>
+      </div>
+
       {feeList.nationalityList && (
         <div>
           <label> Select nationality </label>{" "}
-          <select defaultValue={'--Select nationality--'}
+          <select
+            defaultValue={"--Select nationality--"}
             name="nationalities"
             onChange={handleNationalitySelection}
           >
-            <option  value={null}>--Select nationality--</option>
-            {feeList.nationalityList.map((nationality,index) => {
-              return <option id={index} value={nationality}>{nationality}</option>;
+            <option value={null}>--Select nationality--</option>
+            {feeList.nationalityList.map((nationality, index) => {
+              return (
+                <option id={index} value={nationality}>
+                  {nationality}
+                </option>
+              );
             })}
           </select>
         </div>
@@ -118,7 +127,7 @@ const FeeStructure = ({ data }) => {
         <div>
           <label> Select Level </label>{" "}
           <select name="levels" onChange={handleLevelSelection}>
-            <option  value={null}>--Select Level--</option>
+            <option value={null}>--Select Level--</option>
             {feeList.levelsList.map((level) => {
               return <option value={level}>{level}</option>;
             })}
