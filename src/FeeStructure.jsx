@@ -4,6 +4,7 @@ const FeeStructure = ({ data }) => {
   const [amount, setAmount] = useState(null);
   const courses = ["Medical", "Dental", "Ayurveda"];
   const levels = ["UG", "PG", "DIPLOMA", "Ph.D"];
+  const [nation,setNation]=useState('');
   const [feeData, setFeeData] = useState({
     selectedFee: null,
     nationality: null,
@@ -45,6 +46,7 @@ const FeeStructure = ({ data }) => {
       ? courses
       : Object.keys(data[selectedFee][e.target.value]);
     setFeeList({ ...feeList, levelsList: null, courseList: courseList1 });
+      setNation(e.target.value);
     setFeeData({
       ...feeData,
       course: null,
@@ -66,14 +68,31 @@ const FeeStructure = ({ data }) => {
   };
   const handleLevelSelection = (e) => {
     const { selectedFee, nationality, course } = feeData;
+    debugger;
+    console.log(finalApplicationFee);
+    console.log(finalExamFee);
     if (data[selectedFee][nationality][course][e.target.value]) {
+    var finalApplicationFee= data[selectedFee][nationality][course][e.target.value]["amount"];
       setFeeData({ ...feeData, level: e.target.value });
+      if(nation==="INDIAN" || nation==="SARRC"){
+        finalApplicationFee=(finalApplicationFee/100)*18+finalApplicationFee;
+      }
+      else if(nation==="FOREIGN" || nation==="NRI"){
+        finalApplicationFee=(finalApplicationFee/100)*28+finalApplicationFee;
+      }
       setAmount(
-        data[selectedFee][nationality][course][e.target.value]["amount"]
+        finalApplicationFee
       );
     } else {
+      var finalExamFee= data[selectedFee][nationality][course]["ALL_LEVEL​"]["amount"];
+      if(nation=="INDIAN" || nation==="SAARC"){
+        finalExamFee=((finalExamFee/100))*18+finalExamFee;
+      }
+      else if(nation=="FOREIGN" || nation=="NRI"){
+        finalExamFee=((finalExamFee/100)*28)+finalExamFee;
+      }
       setFeeData({ ...feeData, level: "ALL_LEVEL" });
-      setAmount(data[selectedFee][nationality][course]["ALL_LEVEL​"]["amount"]);
+      setAmount(finalExamFee);
     }
   };
   return (
